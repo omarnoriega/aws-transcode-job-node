@@ -8,9 +8,10 @@ const getVideos = async () => {
 
   const items = await s3
     .listObjectsV2({
-      Bucket: "youtube-test-bucket",
+      Bucket: "bucket-demo-transcoder",
     })
     .promise();
+    console.log(items);
 
   if (items.Contents) {
     return items.Contents.map((content) => content.Key) as string[];
@@ -25,14 +26,14 @@ const transcodeVideos = async (videosArr: string[]) => {
   for (const video of videosArr) {
     const job = await transcoder
       .createJob({
-        PipelineId: "1625561984944-ki0ldv",
+        PipelineId: "1631890102449-gbeppk",
         Input: {
           Key: video,
           Container: "mp4",
         },
         Output: {
-          Key: `output/${video}`,
-          PresetId: "1351620000000-000050",
+          Key: `transcoder/${video}`,
+          PresetId: "1351620000001-000010",
         },
       })
       .promise();
